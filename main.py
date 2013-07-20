@@ -10,7 +10,7 @@ def hello_world():
     return 'Hello Vela!'
     
 
-@app.route('/new_id'):
+@app.route('/new_id')
 def new_id():
     id = guid.new('user')
     return id
