@@ -8,10 +8,14 @@ class User():
     Base properties and functions
     '''
 
-    def __init__(self, db, user_email):
+    def __init__(self, db, id):
         self._db = db
-        user = self.get_user(user_email)
-
+        user = self.get_item(id)
+        
+    @property
+    def id(self):
+        return self._id
+        
     @property
     def db(self):
         return self._db
@@ -36,30 +40,34 @@ class User():
     def update_time(self):
         return self._update_time
 
-    def get_user(self, user_email):
-        self._email = user_email
-        user = self.db.user.find_one({'email': self.email})
+    def get_item(self, id):
+        self._id = id
+        user = self.db.user.find_one({'id': self.id})
         if user:
+            self._email = user['email']
             self._nickname = user['nickname']
             self._password = user['password']
             self._register_time = user['register_time']
             self._update_time = user['update_time']
         else:
+            self._email = ''
             self._nickname = ''
             self._password = ''
-            self._register_time = ''
-            self._update_time = ''
+            self._register_time = datetime.datetime.utcnow()
+            self._update_time = datetime.datetime.utcnow()
 
     def get_properties(self):
         properties = {
+            'id': self.id,
             'nickname': self.nickname,
             'email': self.email,
             'password': self.password,
-            'register_time': datetime.datetime.utcnow(),
-            'update_time': datetime.datetime.utcnow()
+            'register_time': self.register_time,
+            'update_time': self.update_time
         }
         return properties
 
     def save(self):
         properties = self.get_properties()
-        self.db.user.update({'email': self.email}, properties, upsert=True)
+        properties['update_time'] = datetime.datetime.utcnow()
+        self.db.user.update({'id': self.id}, properties, upsert=True)
