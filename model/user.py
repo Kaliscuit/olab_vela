@@ -9,9 +9,9 @@ class User():
     Base properties and functions
     '''
 
-    def __init__(self, db, id):
+    def __init__(self, db, user_dict = {'id': None}):
         self._db = db
-        user = self.get_item(id)
+        user = self.get_item(user_dict)
         
     @property
     def id(self):
@@ -45,9 +45,14 @@ class User():
     def update_time(self):
         return self._update_time
 
-    def get_item(self, id):
-        self._id = id
-        user = self.db.user.find_one({'id': self.id})
+    def get_item(self, user_dict):
+        if user_dict.has_key('id'):
+            self._id = user_dict['id']
+            user = self.db.user.find_one({'id': self.id})
+        elif user_dict.has_key('email'):
+            self._email = user_dict['email']
+            user = self.db.user.find_one({'id': self.id})
+            
         if user:
             self._session_id = user['session_id']
             self._email = user['email']

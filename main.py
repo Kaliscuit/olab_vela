@@ -12,8 +12,13 @@ def hello_world():
 @app.route('/user/register', methods=['POST'])
 def user_register():
     if request.form['email'] and request.form['password']:
+        exist_user = user.User({'email': request.form['email']})
+        if exist_user.password:
+            'ec' = 1062
+            'em' = 'Email already exists'
         user_id = guid.new('user')
-        user.User
+        user.User({'id': user_id})
+        
     
 
 if __name__ == '__main__':
