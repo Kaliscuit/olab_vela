@@ -1,4 +1,5 @@
 from flask import Flask
+from flask import request
 from model import user
 import config
 from utility import guid
