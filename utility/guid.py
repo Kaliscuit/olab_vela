@@ -1,4 +1,4 @@
 import uuid
 
-def new(type):
+def new(type=''):
     return type + '_' + uuid.uuid1()
