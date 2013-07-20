@@ -16,31 +16,25 @@ class Vela():
         self._routes = ''
         self._create_time = ''
 
-
     @property
     def db(self):
         return self._db
-
 
     @property
     def owner(self):
         return self._owner
 
-
     @property
     def members(self):
         return self._members
-
 
     @property
     def routes(self):
         return self._routes
 
-
     @property
     def create_time(self):
         return self._create_time
-
 
     def create(self):
         properties = {
@@ -50,7 +44,6 @@ class Vela():
                 'create_time':datetime.datetime.utnow()
                 }
         db.vela.insert(properties)
-
 
     def add_snap_to_route(self, snap_id):
         self._routes.append(snap_id)
