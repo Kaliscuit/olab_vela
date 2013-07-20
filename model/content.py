@@ -1,27 +1,37 @@
 #! /usr/bin/env python
 import datetime
 
-class Snap():
+class Content():
 
     '''
-    Snap Model
+    Content Model
     Base properties and funcctions
     '''
 
     def __init__(self,db,id):
         self._db = db
-        snap = self.get_one(id)
+        content = self.get_item(id)
 
     @property
     def db(self):
         return self._db
-        
+
+    @property
     def id(self):
         return self._id
 
     @property
-    def snap_time(self):
-        return self._snap_time
+    def type(self):
+        return self._type
+
+    @property
+    def content_time(self):
+        return self._content_time    
+
+    @property
+    def data(self):
+        return self._data    
+
 
     @property
     def create_time(self):
@@ -29,32 +39,20 @@ class Snap():
         
     @property
     def update_time(self):
-        return self._update_time    
-
-    @property
-    def creator(self):
-        return self._creator
-
-    @property
-    def members(self):
-        return self._members
-
-    @property
-    def members(self):
-        return self._contents
+        return self._update_time
 
     def get_one(self,id):
         self._id = id
-        snap = self.db.snap.find_one({'id' : self.id})
-        if snap:
-            self._snap_time = snap['snap_time']
-            self._creator = snap['creator']
-            self._members = snap['members']
-            self._contents = snap['contents']
-            self._create_time = snap['create_time']
-            self._update_time = snap['update_time']
+        content = self.db.content.find_one({'id' : self.id})
+        if content:
+            self._type = content['type']
+            self._content_time = content['content_time']
+            self._data = content['data']
+            self._contents = content['contents']
+            self._create_time = content['create_time']
+            self._update_time = content['update_time']
         else:
-            self._snap_time = ''
+            self._content_time = ''
             self._creator = ''
             self._members = []
             self._contents = []
@@ -64,7 +62,7 @@ class Snap():
     def get_properties(self):
         properties = {
             'id': self.id,
-            'snap_time': self.snap_time,
+            'content_time': self.content_time,
             'creator': self.creator,
             'members': self.members,
             'contents': self.contents,
@@ -76,7 +74,7 @@ class Snap():
     def save(self):
         properties = self.get_properties()
         properties['update_time'] = datetime.datetime.utcnow()
-        self.db.snap.update({'id': self.id}, properties, upsert=True)
+        self.db.content.update({'id': self.id}, properties, upsert=True)
 
     
 
