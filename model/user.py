@@ -1,5 +1,6 @@
 #! /usr/bin/env python
 import datetime
+from utility import guid 
 
 
 class User():
@@ -19,6 +20,10 @@ class User():
     @property
     def db(self):
         return self._db
+        
+    @property
+    def session_id(self):
+        return self._session_id
 
     @property
     def nickname(self):
@@ -44,12 +49,14 @@ class User():
         self._id = id
         user = self.db.user.find_one({'id': self.id})
         if user:
+            self._session_id = user['session_id']
             self._email = user['email']
             self._nickname = user['nickname']
             self._password = user['password']
             self._register_time = user['register_time']
             self._update_time = user['update_time']
         else:
+            self._session_id = session + '_' + str(uuid.uuid1())
             self._email = ''
             self._nickname = ''
             self._password = ''
