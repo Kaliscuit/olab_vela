@@ -21,14 +21,14 @@ def user_register():
         user_password = request.form['password']
         user_nickname = request.form['nickname'].strip()
         if is_email(user_email):
-            exist_user = user.User({'email': user_email})
+            exist_user = user.User(config.db, {'email': user_email})
             if exist_user.password:
                 ec = 1062
                 em = 'Email already exists'
             else:
                 user_id = guid.new('user')
-                new_user = user.User({'id': user_id})
-                m = md5()         
+                new_user = user.User(config.db, {'id': user_id})
+                m = md5()
                 m.update(request.form['password'])
                 new_user.password = m.hexdigest()
                 new_user.email = user_email

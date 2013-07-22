@@ -51,9 +51,12 @@ class User():
             user = self.db.user.find_one({'id': self.id})
         elif user_dict.has_key('email'):
             self._email = user_dict['email']
-            user = self.db.user.find_one({'id': self.id})
-            
+            user = self.db.user.find_one({'email': self.email})
+            if not user:
+                self._id = ''
+
         if user:
+            self._id = user['id']
             self._session_id = user['session_id']
             self._email = user['email']
             self._nickname = user['nickname']
@@ -61,7 +64,7 @@ class User():
             self._register_time = user['register_time']
             self._update_time = user['update_time']
         else:
-            self._session_id = session + '_' + str(uuid.uuid1())
+            self._session_id = guid.new('session')
             self._email = ''
             self._nickname = ''
             self._password = ''
