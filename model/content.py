@@ -52,10 +52,9 @@ class Content():
             self._create_time = content['create_time']
             self._update_time = content['update_time']
         else:
-            self._content_time = ''
-            self._creator = ''
-            self._members = []
-            self._contents = []
+            self._type = content['type']
+            self._content_time = content['content_time']
+            self._data = content['data']
             self._create_time = datetime.datetime.utcnow()
             self._update_time = datetime.datetime.utcnow()
             
