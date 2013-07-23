@@ -45,7 +45,42 @@ def user_register():
         ec = 500
         em = 'Post data error'
     return json.dumps({'ec': ec, 'em': em})
+
+@app.route('/user/login', methods=['POST'])
+def user_login():
+    user.register()
+
+@app.route('/user/logout', method=['POST'])
+def user_logout():
+    user.login()
     
+@app.route('/content/create', method=['POST'])
+def content_create():
+    content.create()
+    
+@app.route('/content/delete/<id>', method=['POST'])
+def content_delete(id):
+    content.delete(id)
+    
+@app.route('/content/upload', method=['GET','POST'])
+def upload_file():
+    content.upload()
+    
+@app.route('/snap/create', method=['POST'])
+def snap_create():
+    sanp.create()
+    
+@app.route('/route/create', method=['POST'])
+def route_create():
+    route.create()
+
+@app.route('/vela/create', method=['POST'])
+def vela_create():
+    vela.create()
+
+
+    
+
 
 if __name__ == '__main__':
     app.debug = True
